@@ -37,36 +37,6 @@ def save_dataFrame(df: pd.DataFrame, shp_path: str) -> None:
                      "temp_orv", "tempMAX", "tempORVmax", "tempORVmin", "umidadeMAX", "umidadeMIN", "umidade", "ventoDIR",
                      "ventVELmax", "vel_vento", "regiao", "uf", "estacao", "codigo", "lat", "long", "alt", "data_fund", "geometry"]
     
-    comments = ["Data da medicao.", "Horario da medicao", "Precipitacao total no horario da medicao (mm).", 
-                "Pressao Atmosférica ao nivel da estacao no horario (mB).",
-                "Pressão Atmosterica maxima na hora anterior (mB).",
-                "Pressão Atmosterica minima na hora anterior (mB).",
-                "Radiacao global. (Kj/m�)",
-                "Temperatura do Ar (Bulbo Seco), horaria, celsius.",
-                "Temperatura do ponto de orvalho, em celsius.",
-                "Temperatura maxima, hora anterior.",
-                "Temperatura minima, hora anterior.",
-                "Temperatura ORVALHO maxima, hora anterior.", 
-                "Temperatura ORVALHO minima, hora anterior.",                
-                "Umidade relativa maxima, hora anterior.",
-                "Umidade relativa minima, hora anterior.",
-                "Umidade relativa do ar, no horario.",
-                "Direção do vento, no horario.",
-                "Rajada máxima de vento.",
-                "Velocidade vento",
-                "Regiao brasileira em que o medidor foi instalado.",
-                "Unidade federativa brasileira de instalacao do medidor.",
-                "Nome do medidor",
-                "Codigo do medidor",
-                "Latitude geografica de instalacao do medidor.",
-                "Longetude geografica de instalacao do medidor.",
-                "Altitude em que o medidor foi instalado",
-                "Data de instalacao do medidor",
-                "Coluna geometrica," ]
-    
-    for idx, column in enumerate(geo_df.columns):
-        print(f'"{column}":"{comments[idx]}"')
-
     geo_df.to_file(shp_path, driver="ESRI Shapefile", encoding="utf-8", engine="pyogrio")
 
 if __name__ == "__main__":
