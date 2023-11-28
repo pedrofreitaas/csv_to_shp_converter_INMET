@@ -1,3 +1,7 @@
 *.zip
+
 files_to_convert/*
+!files_to_convert/.gitkeep
+
 shapefiles/*
+!shapefiles/.gitkeep
