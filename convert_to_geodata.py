@@ -48,4 +48,4 @@ if __name__ == "__main__":
         if filepath == ".gitkeep": continue
         df = add_in_dataFrame(df, path_to_files+filepath)
 
-    save_dataFrame(df, "shapefiles/estacoes.shp")
+    save_dataFrame(df, "shapefiles/estacao.shp")
