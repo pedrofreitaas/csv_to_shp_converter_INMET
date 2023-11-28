@@ -10,9 +10,9 @@
 '''
 ```
 
-# OBS: .csv files have to come the the source INMET.
+### OBS: .csv files have to come from the source: Banco dados meteorológicos INMET.
 
-# Column name explanations:
+### Column name explanations:
 ```python
 {
     "data":"Data da medicao.",
