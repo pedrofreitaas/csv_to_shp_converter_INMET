@@ -24,28 +24,39 @@ def add_in_dataFrame(df1: pd.DataFrame, csv_path: str) -> pd.DataFrame:
 
     df2 = df2.assign(**global_data)
 
+    df2.fillna(0, inplace=True)
+
+    df2 = df2.convert_dtypes()
+
+    try:
+        df2.columns = ["data", "horario", "precip_T", "presATM", "presATMmax", "presATMmin", "radiacao", "temp_ar_BS",
+                       "temp_orv", "tempMAX", "tempMIN", "tempORVmax", "tempORVmin", "umidadeMAX", "umidadeMIN", "umidade", "ventoDIR",
+                       "ventVELmax", "vel_vento", "regiao", "uf", "estacao", "codigo", "lat", "long", "alt", "geometry"]
+    except ValueError:
+        return df1
+
     return pd.concat([df1,df2], ignore_index=True)
 
 def save_dataFrame(df: pd.DataFrame, shp_path: str) -> None:
     geo_df = gp.GeoDataFrame(df, geometry="geometry", crs="EPSG:4326")
 
-    geo_df.fillna(0, inplace=True)
+    geo_df["id"] = range(0, len(geo_df))
 
-    geo_df = geo_df.convert_dtypes()
+    geo_df.set_index(keys=["id"])
 
-    geo_df.columns = ["data", "horario", "precip_T", "presATM", "presATMmax", "presATMmin", "radiacao", "temp_ar_BS",
-                     "temp_orv", "tempMAX", "tempORVmax", "tempORVmin", "umidadeMAX", "umidadeMIN", "umidade", "ventoDIR",
-                     "ventVELmax", "vel_vento", "regiao", "uf", "estacao", "codigo", "lat", "long", "alt", "data_fund", "geometry"]
-    
     geo_df.to_file(shp_path, driver="ESRI Shapefile", encoding="utf-8", engine="pyogrio")
 
 if __name__ == "__main__":
     path_to_files = "files_to_convert/"
-    
-    df = pd.DataFrame()
 
+    df = pd.DataFrame()
+    
     for filepath in os.listdir(path_to_files):
         if filepath == ".gitkeep": continue
-        df = add_in_dataFrame(df, path_to_files+filepath)
 
-    save_dataFrame(df, "shapefiles/estacao.shp")
+        try: 
+            df = add_in_dataFrame(df, path_to_files+filepath)
+        except Exception as e: 
+            print(f'failed training with: {path_to_files+filepath}. Reason: {e}')
+
+    save_dataFrame(df, f"shapefiles/estacao.shp")
